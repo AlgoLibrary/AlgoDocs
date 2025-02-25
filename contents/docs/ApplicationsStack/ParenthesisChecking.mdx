@@ -1,0 +1,233 @@
+---
+title: Parenthesis Checking
+description: Parenthesis Checking Using Stack in C Language.
+---
+
+## Parenthesis Checking Using Stack in C Language
+
+In the last Docs, we made parentheses matching intuitive using stacks. We followed a simple algorithm:
+
+- **Push**: Whenever you encounter an opening parenthesis, push it onto the stack.
+- **Pop**: Whenever you encounter a closing parenthesis, pop an opening parenthesis from the stack.
+- **Unbalanced Conditions**:
+    1. If a closing parenthesis is found and the stack is empty, the parentheses are unbalanced.
+    2. If there are still opening brackets left in the stack after reaching the end of the expression, the parentheses are unbalanced.
+
+In today’s lesson, we will implement this algorithm in C.
+
+**Understanding the Code Snippet:**
+
+1. **Function Definition**: Create an integer function `parenthesisMatch`, passing a character array (`expression`) as a parameter. The function returns `1` if the parentheses are balanced and `0` otherwise.
+   
+2. **Stack Initialization**:
+   - Declare a stack pointer `sp`.
+   - Initialize the `size` to `100` (or any suitable large number).
+   - Set `top` to `-1` to indicate an empty stack.
+   - Allocate memory for the stack array in the heap.
+```C
+    struct stack* sp;
+    sp->size = 100;
+    sp->top = -1;
+    sp->arr = (char *)malloc(sp->size * sizeof(char));
+```
+
+### Code Snippet 1: Creating and Initializing Stack Array
+
+1. To implement the stack, start by copying the entire stack implementation from before, as it will remain mostly the same. For this example, I’ll use an array-based stack.
+
+2. Change the data type of the stack array from `int` to `char`. Also, update any relevant references from `int` to `char` and rename `arr` to `exp`.
+
+3. Create a loop that goes through each character of the expression from the start until you reach the end.
+
+4. If you find an opening parenthesis `(`, push it onto the stack using the `push` operation.
+
+5. If you find a closing parenthesis `)`, check if the stack is empty by using the `isEmpty` function. If the stack is empty, return `0` (indicating unbalanced parentheses). If it is not empty, pop the top character from the stack using the `pop` operation.
+
+6. After processing the entire expression, if the stack is empty, return `1` (indicating balanced parentheses). If the stack is not empty, return `0`.
+
+7. In the `main` function, define a character array with an expression and pass this expression to the `parenthesisMatch` function to check if the parentheses are balanced.
+
+**Code for parentheses matching:**
+
+```C
+int parenthesisMatch(char * exp){
+    // Create and initialize the stack
+    struct stack* sp;
+    sp->size = 100;
+    sp->top = -1;
+    sp->arr = (char *)malloc(sp->size * sizeof(char));
+ 
+ 
+    for (int i = 0; exp[i]!='\0'; i++)
+    {
+        if(exp[i]=='('){
+            push(sp, '(');
+        }
+        else if(exp[i]==')'){
+            if(isEmpty(sp)){
+                return 0;
+            }
+            pop(sp); 
+        }
+    }
+ 
+    if(isEmpty(sp)){
+        return 1;
+    }
+    else{
+        return 0;
+    } 
+}
+```
+
+### Code Snippet 2: Creating the parenthesisMatch function
+
+**Here is the whole source code:**
+```C
+#include <stdio.h>
+#include <stdlib.h>
+ 
+struct stack
+{
+    int size;
+    int top;
+    char *arr;
+};
+ 
+int isEmpty(struct stack *ptr)
+{
+    if (ptr->top == -1)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+ 
+int isFull(struct stack *ptr)
+{
+    if (ptr->top == ptr->size - 1)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+ 
+void push(struct stack* ptr, char val){
+    if(isFull(ptr)){
+        printf("Stack Overflow! Cannot push %d to the stack\n", val);
+    }
+    else{
+        ptr->top++;
+        ptr->arr[ptr->top] = val;
+    }
+}
+ 
+char pop(struct stack* ptr){
+    if(isEmpty(ptr)){
+        printf("Stack Underflow! Cannot pop from the stack\n");
+        return -1;
+    }
+    else{
+        char val = ptr->arr[ptr->top];
+        ptr->top--;
+        return val;
+    }
+}
+ 
+int parenthesisMatch(char * exp){
+    // Create and initialize the stack
+    struct stack* sp;
+    sp->size = 100;
+    sp->top = -1;
+    sp->arr = (char *)malloc(sp->size * sizeof(char));
+ 
+ 
+    for (int i = 0; exp[i]!='\0'; i++)
+    {
+        if(exp[i]=='('){
+            push(sp, '(');
+        }
+        else if(exp[i]==')'){
+            if(isEmpty(sp)){
+                return 0;
+            }
+            pop(sp); 
+        }
+    }
+ 
+    if(isEmpty(sp)){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+    
+}
+int main()
+{
+    char * exp = "((8)(*--$$9))";
+    // Check if stack is empty
+    if(parenthesisMatch(exp)){
+        printf("The parenthesis is matching");
+    }
+    else{
+        printf("The parenthesis is not matching");
+    }
+    return 0;
+}
+```
+
+### Code Snippet 3: A program to check for balanced parentheses.
+
+Let's now just see if the functions work properly. We will give it some expressions of our choice. 
+
+```C
+    char * exp = "((8)(*--$$9))";
+    // Check if stack is empty
+    if(parenthesisMatch(exp)){
+        printf("The parenthesis is matching");
+    }
+    else{
+        printf("The parenthesis is not matching");
+    }
+```
+
+### Code Snippet 4: Calling the parenthesisMatch function
+
+The output we received was:
+
+```
+The parenthesis is matching
+PS D:\Code>
+```
+
+> Figure 1: Output of the above program
+
+Let’s see for some another expression:
+```C
+    char * exp = "8)*(9)";
+    // Check if stack is empty
+    if(parenthesisMatch(exp)){
+        printf("The parenthesis is matching");
+    }
+    else{
+        printf("The parenthesis is not matching");
+    }
+```
+
+### Code Snippet 5: Calling the parenthesisMatch function for another expression
+
+The output we received was:
+
+```
+The parenthesis is not matching
+PS D:\Code>
+```
+> Figure 2: Output of the above program
+

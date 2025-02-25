@@ -1,0 +1,181 @@
+---
+title: Implementing Stack Using Array
+description: C Code For Implementing Stack Using Array in Data Structures.
+---
+
+## C Code For Implementing Stack Using Array in Data Structures with Example
+
+In the last Docs, we covered how to implement stacks using arrays. We also discussed the basic structure behind defining a stack with all the customizations. Today, we’ll explore the implementation of stacks using arrays in C.
+
+### Understanding the Code Snippet 1
+
+1. The first step is to create the `struct Stack` we discussed in the previous tutorial. This struct should include three members:
+   - An integer variable to store the size of the stack.
+   - An integer variable to store the index of the topmost element.
+   - An integer pointer to hold the address of the array.
+
+```C
+struct stack
+{
+    int size;
+    int top;
+    int *arr;
+};
+```
+> Code Snippet 1: Creating stack
+
+2. In the `main` function, create a `struct stack` variable named `s`, and assign a value of `80` (you can choose any value) to its size. Set its top to `-1`, and reserve memory in the heap using `malloc` for its pointer `arr`. Don’t forget to include `<stdlib.h>`.
+
+3. Alternatively, you can define a pointer to the `struct stack`, allowing you to use the arrow operators to access its members. This method has the advantage of easily passing these pointers as references into functions.
+
+4. Before we proceed to push elements onto this stack, we need to keep in mind a few conditions. You can only push an element onto the stack if there is space left (i.e., the top is not equal to the last index). Similarly, you can only pop an element from the stack if there is at least one element stored (i.e., the top is not equal to `-1`).
+
+<AdaptiveThemeImage
+  src={{
+    dark: "/images/33.svg",
+    light: "/images/33.svg",
+  }}
+  className="mx-auto pb-4 pt-0"
+  width={570}
+  height={400}
+  alt="example"
+/>
+
+5. First, let's write functions to check whether the stack is empty or full.
+
+6. Create an integer function `isEmpty`, and pass the pointer to the stack as a parameter. Inside the function, check if the `top` is equal to `-1`. If it is, then the stack is empty, and the function should return `1`; otherwise, it should return `0`.
+
+```C
+int isEmpty(struct stack *ptr)
+{
+    if (ptr->top == -1){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+```
+
+> Code Snippet 2: Implementing isEmpty
+
+7. Create an integer function isFull, and pass the pointer to the stack as a parameter. In the function, check if the top is equal to (size-1). If yes, then it’s full and returns 1; otherwise, return 0.
+
+```C
+int isFull(struct stack *ptr)
+{
+    if (ptr->top == ptr->size - 1)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+```
+
+> Code Snippet 3: Implementing isFull
+
+**Here is the whole Source Code:**
+
+```C
+#include <stdio.h>
+#include <stdlib.h>
+ 
+struct stack
+{
+    int size;
+    int top;
+    int *arr;
+};
+ 
+int isEmpty(struct stack *ptr)
+{
+    if (ptr->top == -1)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+ 
+int isFull(struct stack *ptr)
+{
+    if (ptr->top == ptr->size - 1)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+ 
+int main()
+{
+    // struct stack s;
+    // s.size = 80;
+    // s.top = -1;
+    // s.arr = (int *) malloc(s.size * sizeof(int));
+ 
+    struct stack *s;
+    s->size = 80;
+    s->top = -1;
+    s->arr = (int *)malloc(s->size * sizeof(int));
+ 
+    return 0;
+}
+```
+
+> Code Snippet 4: Implementing isEmpty and  isFull
+
+Since there is no element inside the stack, we can now check if it’s empty.
+
+```C
+    // Check if stack is empty
+    if(isEmpty(s)){
+        printf("The stack is empty");
+    }
+    else{
+        printf("The stack is not empty");
+    }
+```
+> Code Snippet 5: Calling the function isEmpty
+
+Output:
+```
+The stack is empty
+PS D:\Code>
+```
+
+**Figure 1: Output of the above program**
+So, yes, that worked fine. Now, we can easily push some elements inside this stack manually to test this isEmpty function. This should not be a tough job. Just insert an element at top+1 and increment top by 1.
+
+```C
+// Pushing an element manually
+    s->arr[0] = 7;
+    s->top++;
+ 
+    // Check if stack is empty
+    if(isEmpty(s)){
+        printf("The stack is empty");
+    }
+    else{
+        printf("The stack is not empty");
+    }
+```
+
+> Code Snippet 6: Inserting an element in the stack
+
+Output after inserting an element:
+
+```
+The stack is not empty
+PS D:\Code>
+```
+
+*Figure 2: Output of the above program*
+

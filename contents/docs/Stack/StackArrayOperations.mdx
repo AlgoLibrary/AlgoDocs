@@ -1,0 +1,226 @@
+---
+title: Stack Array Operations
+description: Coding Push(), Pop(), isEmpty() and isFull() Operations in Stack Using an Array. 
+---
+
+## Coding Push(), Pop(), isEmpty(), and isFull() Operations in Stack Using an Array
+
+In the last sections, we covered the concepts behind the push and pop operations on a stack implemented with an array. We saw how easy it is to push an element into a non-full array and to pop an element from a non-empty array. Today, we’ll focus on coding these implementations in C.
+
+If you haven't followed along in the last sections, I recommend visiting that first. It not only covered the concepts but also the implementation part. Below is the code snippet for reference as we learn to code:
+
+### Understanding the Code Snippet 1:
+
+1. There is nothing new here. You can construct a `struct stack` with all its three members: `size` to store the size of the array used for this stack, `top` to store the index of the topmost element in the stack, and `arr`, a pointer to store the address of the array used. I will skip this part because we have covered it before.
+
+```C
+struct stack{
+    int size ;
+    int top;
+    int * arr;
+};
+```
+
+### Code Snippet 1: Creating Stack Struct
+
+2. In the main function, define a `struct stack` pointer `sp`, which will store the address of the stack. Since we are using `malloc` to reserve memory in the heap for this stack, don't forget to include the header file `<stdlib.h>`.
+
+3. Initialize all the elements of the stack with some values.
+
+4. Create the integer functions `isFull` and `isEmpty`. We have covered them in detail here. These functions are essential while using the push or pop operations.
+
+5. Create a void function `push`, and pass into it the address of the stack using the pointer `sp` and the value that is to be pushed.
+
+6. Don’t forget to first check if our stack still has some space left to push elements. Use the `isFull` function for that. If it returns 1, this indicates a case of stack overflow; otherwise, increase the top element of the stack by 1 and insert the value at this new top of the array.
+
+<AdaptiveThemeImage
+  src={{
+    dark: "/images/36.svg",
+    light: "/images/36.svg",
+  }}
+  className="mx-auto pb-4 pt-0"
+  width={570}
+  height={400}
+  alt="example"
+/>
+
+```C
+void push(struct stack* ptr, int val){
+    if(isFull(ptr)){
+        printf("Stack Overflow! Cannot push %d to the stack\n", val);
+    }
+    else{
+        ptr->top++;
+        ptr->arr[ptr->top] = val;
+    }
+}
+```
+
+### Code Snippet 2: Implementing the Push and Pop Operations
+
+7. Create another void function `pop`, and pass into it the same address of the stack using the pointer `sp`. This is the only parameter since the pop operation retrieves only the topmost element.
+
+8. Don’t forget to first check if our stack still has some elements left to pop. Use the `isEmpty` function for that. If it returns 1, this indicates a case of stack underflow; otherwise, just decrease the top element of the stack by 1, and we are done. The next time we push an element, we’ll overwrite the present element at that index. So, that’s basically ignored and acts as if it got deleted.
+
+<AdaptiveThemeImage
+  src={{
+    dark: "/images/37.svg",
+    light: "/images/37.svg",
+  }}
+  className="mx-auto pb-4 pt-0"
+  width={570}
+  height={400}
+  alt="example"
+/>
+
+```C
+int pop(struct stack* ptr){
+    if(isEmpty(ptr)){
+        printf("Stack Underflow! Cannot pop from the stack\n");
+        return -1;
+    }
+    else{
+        int val = ptr->arr[ptr->top];
+        ptr->top--;
+        return val;
+    }
+}
+```
+
+### Code Snippet 3: Implementing the pop operation.
+
+**Here is the whole source code:**
+
+```C
+#include<stdio.h>
+#include<stdlib.h>
+ 
+struct stack{
+    int size ;
+    int top;
+    int * arr;
+};
+ 
+int isEmpty(struct stack* ptr){
+    if(ptr->top == -1){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+}
+ 
+int isFull(struct stack* ptr){
+    if(ptr->top == ptr->size - 1){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+ 
+void push(struct stack* ptr, int val){
+    if(isFull(ptr)){
+        printf("Stack Overflow! Cannot push %d to the stack\n", val);
+    }
+    else{
+        ptr->top++;
+        ptr->arr[ptr->top] = val;
+    }
+}
+ 
+int pop(struct stack* ptr){
+    if(isEmpty(ptr)){
+        printf("Stack Underflow! Cannot pop from the stack\n");
+        return -1;
+    }
+    else{
+        int val = ptr->arr[ptr->top];
+        ptr->top--;
+        return val;
+    }
+}
+ 
+int main(){
+    struct stack *sp = (struct stack *) malloc(sizeof(struct stack));
+    sp->size = 10;
+    sp->top = -1;
+    sp->arr = (int *) malloc(sp->size * sizeof(int));
+    printf("Stack has been created successfully\n");
+ 
+    return 0;
+}
+```
+
+### Code Snippet 4: Implementing the pop and the push operations.
+
+Now let's check if everything is working properly. We’ll first check if the isFull and the isEmpty functions work. Call these functions after declaring the stack sp.
+
+```C
+    printf("Before pushing, Full: %d\n", isFull(sp));
+    printf("Before pushing, Empty: %d\n", isEmpty(sp));
+```
+
+### Code Snippet 5:  Calling the isEmpty and the isFull functions
+
+The output we received, was:
+
+```
+0
+1
+PS D:\Code>
+```
+
+**Figure 1: Output of the above program**
+
+So, since the stack is empty, it returned 1. Now, let’s push 10 elements into this stack array using the push function. And then call the isFull and the *isEmpty* functions.
+
+```
+    push(sp, 1);
+    push(sp, 23);
+    push(sp, 99);
+    push(sp, 75);
+    push(sp, 3);
+    push(sp, 64);
+    push(sp, 57);
+    push(sp, 46);
+    push(sp, 89);
+    push(sp, 6); // ---> Pushed 10 values 
+    // push(sp, 46); // Stack Overflow since the size of the stack is 10
+    printf("After pushing, Full: %d\n", isFull(sp));
+    printf("After pushing, Empty: %d\n", isEmpty(sp));
+```
+
+### Code Snippet 6:  Using the push function
+
+The output we received, was:
+```
+1
+0
+PS D:\Code>
+```
+
+**Figure 2: Output of the above program**
+
+Since the stack is now full, it returned 1 from isFull function. This means our push function is working well. Now, let’s pop some elements.
+
+```
+    printf("Popped %d from the stack\n", pop(sp)); // --> Last in first out!
+    printf("Popped %d from the stack\n", pop(sp)); // --> Last in first out!
+    printf("Popped %d from the stack\n", pop(sp)); // --> Last in first out!
+```
+
+### Code Snippet 7:  Using the pop function
+
+The output we received was:
+
+```
+Popped 6 from the stack
+Popped 89 from the stack
+Popped 46 from the stack
+PS D:\Code>
+```
+
+*Figure 3: Output of the above program*
+
+

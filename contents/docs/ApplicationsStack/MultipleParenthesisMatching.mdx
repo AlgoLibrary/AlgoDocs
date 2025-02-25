@@ -1,0 +1,348 @@
+---
+title: Multiple Parenthesis Matching
+description: Multiple Parenthesis Matching Using Stack with C Code.
+---
+
+## Multiple Parenthesis Matching Using Stack with C Code
+
+In our previous discussions, we implemented parentheses matching using stacks in C, focusing on a single type of parenthesis. Today, we will extend that concept to handle multiple types of parentheses: round `()`, square `[]`, and curly `{}` brackets. This is what we call multi-parenthesis matching.
+
+### Understanding Multi-Parenthesis Matching
+
+1. **Balanced Parentheses**: An expression is considered balanced if every opening parenthesis has a corresponding closing parenthesis.
+
+2. **Types of Parentheses**: We will be working with three types of opening parentheses: `(`, `{`, and `[` and their corresponding closing parentheses: `)`, `}`, and `]`.
+
+3. **Key Conditions for Matching**:
+   - When encountering a closing parenthesis, first check that the stack is not empty.
+   - Then, verify that the topmost element in the stack matches the type of closing parenthesis encountered.
+
+### Steps for Implementation
+
+1. **Pushing Opening Parentheses**: Whenever we encounter an opening parenthesis, push it onto the stack, just like in the previous implementation.
+
+2. **Popping for Closing Parentheses**: For closing parentheses, ensure:
+   - The stack size is greater than zero (not empty).
+   - The top of the stack matches the current closing parenthesis.
+
+3. **Final Check**: After processing the entire expression, if the stack is empty, the parentheses are balanced; otherwise, they are not.
+
+### Illustration
+
+- When encountering an opening parenthesis, such as `{`, push it onto the stack.
+- If you encounter a closing parenthesis like `}`, check:
+  - Is the stack empty? If yes, the expression is unbalanced.
+  - Does the top of the stack have the corresponding opening parenthesis `{`? If yes, pop it from the stack; if no, the expression is unbalanced.
+
+This modification to our earlier implementation is minimal but crucial for handling multiple types of parentheses.
+
+### Next Steps
+
+Now, let's look at the code changes needed to implement this multi-parenthesis matching. We'll focus on modifying the `pop` operation and adjusting our checks accordingly.
+
+<AdaptiveThemeImage
+  src={{
+    dark: "/images/51.svg",
+    light: "/images/51.svg",
+  }}
+  className="mx-auto pb-4 pt-0"
+  width={770}
+  height={450}
+  alt="example"
+/>
+
+**Example:**
+
+<AdaptiveThemeImage
+  src={{
+    dark: "/images/52.svg",
+    light: "/images/52.svg",
+  }}
+  className="mx-auto pb-4 pt-0"
+  width={770}
+  height={450}
+  alt="example"
+/>
+
+We’ll try checking if the above expression has balanced multi-parentheses or not.
+
+### Step 1: Iterate through the char array, and push the opening brackets of all types at positions 0, 1, 4 inside the stack.
+
+<AdaptiveThemeImage
+  src={{
+    dark: "/images/53.svg",
+    light: "/images/53.svg",
+  }}
+  className="mx-auto pb-4 pt-0"
+  width={770}
+  height={450}
+  alt="example"
+/>
+
+### Step 2: When you encounter a closing bracket of any type in the expression, try checking if the kind of closing bracket you have got matches with the topmost bracket in the stack.
+
+<AdaptiveThemeImage
+  src={{
+    dark: "/images/54.svg",
+    light: "/images/54.svg",
+  }}
+  className="mx-auto pb-4 pt-0"
+  width={770}
+  height={450}
+  alt="example"
+/>
+
+### Step 3: Since we couldn’t pop an opening bracket corresponding to a closed bracket, we would just end the program here, declaring the parentheses unbalanced.
+
+## Modifying the Parenthesis Matching Function for Multiple Parentheses
+
+Now, let's implement the changes needed to modify our existing parenthesis matching function to handle multiple types of parentheses. We will follow the algorithm outlined previously. 
+
+### Understanding the Code Snippet
+
+1. **Copy Existing Code**: Start by copying the entire implementation of the `parenthesisMatch` function and the stack structure from our previous documentation. This will save time, as many parts of the code remain unchanged.
+
+2. **No Changes in Stack Declaration**: The stack declaration and its members will remain the same. We will only focus on modifying the logic to accommodate multiple types of parentheses.
+
+3. **Iterate Through the Expression**: Run a loop to traverse the character array from the beginning until the end of the expression (EOE).
+
+4. **Push Opening Parentheses**: If the current character is an opening parenthesis (`(`, `[`, or `{`), push it onto the stack using the `push` operation.
+
+5. **Handle Closing Parentheses**: If the current character is a closing parenthesis (`)`, `]`, or `}`):
+   - First, check if the stack is not empty using the `isEmpty` function. If it is empty, return `0` to indicate unbalanced parentheses.
+   - If the stack is not empty, pop the topmost character from the stack and store it in a character variable named `popped_ch`, which should be declared globally.
+
+
+```C
+int match(char a, char b){
+    if(a=='{' && b=='}'){
+        return 1;
+    }
+    if(a=='(' && b==')'){
+        return 1;
+    }
+    if(a=='[' && b==']'){
+        return 1;
+    }
+  return 0;  
+}
+```
+
+> Code Snippet 1: Creating the match function
+
+6. Create an integer function `match` which will take `popped_ch` and the current character of the expression as parameters. Inside this function, check if these two characters are the same. If they are, return 1; otherwise, return 0.
+
+7. If the `match` function returns 1, our pop operation is successful, and we can continue checking further characters; else, if it returns 0, end the program here itself and return 0 to the main.
+
+8. If everything goes well throughout, and in the end, if the stack becomes empty, return 1; else return 0.
+
+**Code for multi parentheses matching:**
+
+```C
+int parenthesisMatch(char * exp){
+    // Create and initialize the stack
+    struct stack* sp;
+    sp->size = 100;
+    sp->top = -1;
+    sp->arr = (char *)malloc(sp->size * sizeof(char));
+    char popped_ch;
+ 
+    for (int i = 0; exp[i]!='\0'; i++)
+    {
+        if(exp[i]=='(' || exp[i]=='{' || exp[i]=='['){
+            push(sp, exp[i]);
+        }
+        else if(exp[i]==')'|| exp[i]=='}' || exp[i]==']'){
+            if(isEmpty(sp)){
+                return 0;
+            }
+            popped_ch = pop(sp);
+            if(!match(popped_ch, exp[i])){ 
+              return 0;  
+            }
+        }
+    }
+ 
+    if(isEmpty(sp)){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+```
+
+> Code Snippet 2: Creating the modified parenthesisMatch function
+
+**Here is the whole source code:**
+
+```C
+#include <stdio.h>
+#include <stdlib.h>
+ 
+struct stack
+{
+    int size;
+    int top;
+    char *arr;
+};
+ 
+int isEmpty(struct stack *ptr)
+{
+    if (ptr->top == -1)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+ 
+int isFull(struct stack *ptr)
+{
+    if (ptr->top == ptr->size - 1)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+ 
+void push(struct stack* ptr, char val){
+    if(isFull(ptr)){
+        printf("Stack Overflow! Cannot push %d to the stack\n", val);
+    }
+    else{
+        ptr->top++;
+        ptr->arr[ptr->top] = val;
+    }
+}
+ 
+char pop(struct stack* ptr){
+    if(isEmpty(ptr)){
+        printf("Stack Underflow! Cannot pop from the stack\n");
+        return -1;
+    }
+    else{
+        char val = ptr->arr[ptr->top];
+        ptr->top--;
+        return val;
+    }
+}
+ 
+char stackTop(struct stack* sp){
+    return sp->arr[sp->top];
+}
+ 
+int match(char a, char b){
+    if(a=='{' && b=='}'){
+        return 1;
+    }
+    if(a=='(' && b==')'){
+        return 1;
+    }
+    if(a=='[' && b==']'){
+        return 1;
+    }
+  return 0;  
+}
+ 
+int parenthesisMatch(char * exp){
+    // Create and initialize the stack
+    struct stack* sp;
+    sp->size = 100;
+    sp->top = -1;
+    sp->arr = (char *)malloc(sp->size * sizeof(char));
+    char popped_ch;
+ 
+    for (int i = 0; exp[i]!='\0'; i++)
+    {
+        if(exp[i]=='(' || exp[i]=='{' || exp[i]=='['){
+            push(sp, exp[i]);
+        }
+        else if(exp[i]==')'|| exp[i]=='}' || exp[i]==']'){
+            if(isEmpty(sp)){
+                return 0;
+            }
+            popped_ch = pop(sp);
+            if(!match(popped_ch, exp[i])){ 
+              return 0;  
+            }
+        }
+    }
+ 
+    if(isEmpty(sp)){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+    
+}
+ 
+int main()
+{
+    char * exp = "[4-6]((8){(9-8)})";
+    
+    if(parenthesisMatch(exp)){
+        printf("The parenthesis is balanced");
+    }
+    else{
+        printf("The parenthesis is not balanced");
+    }
+    return 0;
+}
+```
+
+> Code Snippet 3: A program to check for balanced multi-parentheses.
+
+Let's try the functions now and see if they work. We will give it some random expressions of our choice.
+
+```C
+    char * exp = "((8){(9-8)})";
+    // Check if stack is empty
+    if(parenthesisMatch(exp)){
+        printf("The parenthesis is matching");
+    }
+    else{
+        printf("The parenthesis is not matching");
+```
+
+> Code Snippet 4: Calling the parenthesisMatch function
+
+The output we received was:
+
+```
+The parenthesis is matching
+PS D:\Code>
+```
+
+> Figure 1: Output of the above program
+
+Let’s see for some another expression:
+
+```C
+    char * exp = "[[4-6]((8){(9-8])})";
+    
+    if(parenthesisMatch(exp)){
+        printf("The parenthesis is balanced");
+    }
+    else{
+        printf("The parenthesis is not balanced");
+    }
+```
+
+> Code Snippet 5: Calling the parenthesisMatch function for another expression
+
+The output we received was:
+
+``` 
+The parenthesis is not matching
+PS D:\Code>
+```
+
+> Figure 2: Output of the above program
+
