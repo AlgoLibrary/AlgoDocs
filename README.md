@@ -4,47 +4,42 @@ AlgoDocs is a personal documentation project for **Data Structures** and **Algor
 
 > ⚠️ Please note: This is not an official DSA documentation. All content is based on my personal knowledge, approaches, and solutions.
 
-## Features
+Visit the [AlgoDocs](https://algodocs.vercel.app/)
 
-- 📚 **Comprehensive DSA Documentation**: In-depth explanations of data structures (arrays, linked lists, trees, etc.) and algorithms (sorting, searching, dynamic programming, etc.).
-- 💡 **Easy-to-Understand Solutions**: LeetCode problems are explained in a way that’s beginner-friendly, with simple language and clear steps.
-- 🖼️ **Diagrams and Visuals**: Visual aids like diagrams and flowcharts are included to make complex concepts easier to grasp.
-- 🔄 **Interactive Examples**: Solutions are not just explained but also broken down into examples with detailed steps.
-- 🎨 **Visual Enhancements**: Emojis and formatting are used to make the documentation visually appealing and engaging.
-- 📈 **Optimized for Learning**: Each section focuses on building a solid foundation with concise explanations, followed by progressively more advanced concepts.
+## 🚀 Project Structure
 
-## Tech Stack
+Inside of your Astro + Starlight project, you'll see the following folders and files:
 
-- **Framework**: Next.js (for static site generation)
-- **Languages**: TypeScript
-- **UI/UX**: TailwindCSS
-- **Graphics**: Diagrams made with tools like Excalidraw for clear and concise visual representations.
+```
+.
+├── public/
+├── src/
+│   ├── assets/
+│   ├── content/
+│   │   ├── docs/
+│   │   └── config.ts
+│   └── env.d.ts
+├── astro.config.mjs
+├── package.json
+└── tsconfig.json
+```
 
-## How to Use
+Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
 
-1. Browse the docs to explore different data structures and algorithms.
-2. Dive into detailed LeetCode solutions with step-by-step breakdowns.
-3. Use the diagrams to visually understand how each algorithm or data structure works.
-4. Enhance your learning experience by following along with examples.
+Images can be added to `src/assets/` and embedded in Markdown with a relative link.
 
-## Contributing
+Static assets, like favicons, can be placed in the `public/` directory.
 
-Contributions are welcome! If you'd like to enhance AlgoDocs, feel free to:
+## 🧞 Commands
 
-- 📝 **Add Better Solutions**: Improve existing LeetCode solutions or add more efficient ones.
-- 📊 **Enhance Diagrams**: Add or improve diagrams for better visualization of concepts.
-- 🧠 **Simplify Explanations**: Help make the content even more beginner-friendly by simplifying explanations.
-- 🎨 **Add Emojis & Style**: Emojis are welcome to make the docs more fun to read! Feel free to enhance the visual design as well.
+All commands are run from the root of the project, from a terminal:
 
-## Planned Features
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-- **Interactive Code Snippets**: Planned future feature where users can interact with code directly on the docs for better understanding.
-- **Quizzes and Practice Problems**: To help test your understanding of the concepts covered.
-
-## Give it a ⭐ on GitHub!
-
-If you love AlgoDocs and find it helpful, don’t forget to give it a ⭐ on [GitHub](https://github.com/thapasijan171/AlgoDocs). Your support means a lot and helps in improving the project further!
-
----
-
-Feel free to explore the docs, learn DSA in a simple way, and contribute to making this project better! Let's make learning DSA fun and easy together. 🚀
